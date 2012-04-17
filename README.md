@@ -11,6 +11,7 @@ var output = validate("string");
 
 To compile:
 
-1. Get emscripten and node.js.
-2. Edit the Makefile to set the path to emscripten
-3. Run ```make```.
+1. Get emscripten and node.js
+2. ```git clone --recursive git://github.com/simonster/csl-validator.js.git```
+3. Edit the Makefile to set the path to emscripten
+4. ```make```
