@@ -49,9 +49,9 @@ function getStringByteLength(string) {
 }
 
 // Emscripten file system functions
-var cslValidatorInput = null,
-	cslValidatorInputLocation = 0;
-	cslValidatorOutput = "";
+var cslValidatorInput,
+	cslValidatorInputLocation,
+	cslValidatorOutput;
 var Module = {
 	"arguments":["csl.rnc"],
 	"stdin":function() {
@@ -72,6 +72,7 @@ validate = function(string) {
 	cslValidatorInput = new Uint8Array(getStringByteLength(string));
 	stringToUTF8Array(string, cslValidatorInput);
 	cslValidatorInputLocation = 0;
+	cslValidatorOutput = "";
 	
 	FS.streams[0] = FS.streams[1];
 	run();

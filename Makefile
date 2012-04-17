@@ -23,7 +23,7 @@ $(RNV)/Makefile: $(EXPAT)/libexpat.la
 	export CPPFLAGS='-L$(TOP)$(EXPAT) -I$(TOP)$(EXPAT)/lib'; cd $(RNV); \
 		"$(EMSCRIPTEN)/emconfigure" ./configure
 
-csl-validator.js: $(RNV)/Makefile
+csl-validator.js: $(RNV)/Makefile pre.js
 	cd $(RNV); "$(EMSCRIPTEN)/emmake" make
 	"$(EMSCRIPTEN)/emcc" -O2 -o csl-validator.js \
 		$(RNV)/rnv-xcl.o $(RNV)/librnv1.a $(RNV)/librnv2.a $(EXPAT)/.libs/libexpat.a \
