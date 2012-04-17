@@ -1,74 +1,594 @@
 <!DOCTYPE html>
 <html>
 
-  <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="csl-validator.js : CSL validator in JavaScript using rnv and emscripten" />
+	<head>
+		<meta charset='utf-8' />
+		<meta http-equiv="X-UA-Compatible" content="chrome=1" />
+		<meta name="description" content="csl-validator.js : CSL validator in JavaScript using rnv and emscripten" />
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+		<link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
-    <title>csl-validator.js</title>
-  </head>
+		<title>csl-validator.js</title>
+	</head>
 
-  <body>
+	<body>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/simonster/csl-validator.js">Fork Me on GitHub</a>
+		<!-- HEADER -->
+		<div id="header_wrap" class="outer">
+				<header class="inner">
+					<a id="forkme_banner" href="https://github.com/simonster/csl-validator.js">Fork Me on GitHub</a>
 
-          <h1 id="project_title">csl-validator.js</h1>
-          <h2 id="project_tagline">CSL validator in JavaScript using rnv and emscripten</h2>
+					<h1 id="project_title">csl-validator.js</h1>
+					<h2 id="project_tagline">CSL validator in JavaScript using rnv and emscripten</h2>
 
-          <section id="downloads">
-            <a class="zip_download_link" href="https://github.com/simonster/csl-validator.js/zipball/master">Download this project as a .zip file</a>
-            <a class="tar_download_link" href="https://github.com/simonster/csl-validator.js/tarball/master">Download this project as a tar.gz file</a>
-          </section>
-        </header>
-    </div>
+					<section id="downloads">
+						<a class="zip_download_link" href="https://github.com/simonster/csl-validator.js/zipball/master">Download this project as a .zip file</a>
+						<a class="tar_download_link" href="https://github.com/simonster/csl-validator.js/tarball/master">Download this project as a tar.gz file</a>
+					</section>
+				</header>
+		</div>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h3>Welcome to GitHub Pages.</h3>
+		<!-- MAIN CONTENT -->
+		<div id="main_content_wrap" class="outer">
+			<section id="main_content" class="inner">
+				<div id="editor" style="position: relative; width: 100%; height: 400px">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;style xmlns="http://purl.org/net/xbiblio/csl" class="note" version="1.0" demote-non-dropping-particle="sort-only"&gt;
+  &lt;info&gt;
+    &lt;title&gt;Chicago Manual of Style (note)&lt;/title&gt;
+    &lt;id&gt;http://www.zotero.org/styles/chicago-note-bibliography&lt;/id&gt;
+    &lt;link href="http://www.zotero.org/styles/chicago-note-bibliography" rel="self"/&gt;
+    &lt;link href="http://www.chicagomanualofstyle.org/tools_citationguide.html" rel="documentation"/&gt;
+    &lt;author&gt;
+      &lt;name&gt;Julian Onions&lt;/name&gt;
+      &lt;email&gt;julian.onions@gmail.com&lt;/email&gt;
+    &lt;/author&gt;
+    &lt;contributor&gt;
+      &lt;name&gt;Simon Kornblith&lt;/name&gt;
+      &lt;email&gt;simon@simonster.com&lt;/email&gt;
+    &lt;/contributor&gt;
+    &lt;contributor&gt;
+      &lt;name&gt;Elena Razlogova&lt;/name&gt;
+      &lt;email&gt;elena.razlogova@gmail.com&lt;/email&gt;
+    &lt;/contributor&gt;
+    &lt;summary&gt;Chicago format with short notes and full bibliography&lt;/summary&gt;
+    &lt;category field="generic-base"/&gt;
+    &lt;category citation-format="note"/&gt;
+    &lt;updated&gt;2012-04-03T13:46:03+00:00&lt;/updated&gt;
+    &lt;rights&gt;This work is licensed under a Creative Commons Attribution-Share Alike 3.0 License: http://creativecommons.org/licenses/by-sa/3.0/&lt;/rights&gt;
+  &lt;/info&gt;
+  &lt;macro name="secondary-contributors"&gt;
+    &lt;choose&gt;
+      &lt;if type="chapter paper-conference" match="none"&gt;
+        &lt;group delimiter=". "&gt;
+          &lt;choose&gt;
+            &lt;if variable="author"&gt;
+              &lt;names variable="editor" delimiter=". "&gt;
+                &lt;label form="verb" text-case="capitalize-first" suffix=" "/&gt;
+                &lt;name and="text" delimiter=", "/&gt;
+              &lt;/names&gt;
+            &lt;/if&gt;
+          &lt;/choose&gt;
+          &lt;choose&gt;
+            &lt;if variable="author editor" match="any"&gt;
+              &lt;names variable="translator" delimiter=". "&gt;
+                &lt;label form="verb" text-case="capitalize-first" suffix=" "/&gt;
+                &lt;name and="text" delimiter=", "/&gt;
+              &lt;/names&gt;
+            &lt;/if&gt;
+          &lt;/choose&gt;
+        &lt;/group&gt;
+      &lt;/if&gt;
+    &lt;/choose&gt;
+  &lt;/macro&gt;
+  &lt;macro name="container-contributors"&gt;
+    &lt;choose&gt;
+      &lt;if type="chapter paper-conference" match="any"&gt;
+        &lt;group delimiter=", "&gt;
+          &lt;choose&gt;
+            &lt;if variable="author"&gt;
+              &lt;names variable="editor" delimiter=", "&gt;
+                &lt;label form="verb" text-case="lowercase" suffix=" "/&gt;
+                &lt;name and="text" delimiter=", "/&gt;
+              &lt;/names&gt;
+              &lt;choose&gt;
+                &lt;if variable="container-author"&gt;
+                  &lt;group&gt;
+                    &lt;names variable="container-author"&gt;
+                      &lt;label form="verb-short" prefix=" " text-case="lowercase" suffix=" " strip-periods="true"/&gt;
+                      &lt;name and="text" delimiter=", "/&gt;
+                    &lt;/names&gt;
+                  &lt;/group&gt;
+                &lt;/if&gt;
+              &lt;/choose&gt;
+            &lt;/if&gt;
+          &lt;/choose&gt;
+          &lt;choose&gt;
+            &lt;if variable="author editor" match="any"&gt;
+              &lt;names variable="translator" delimiter=", "&gt;
+                &lt;label form="verb" text-case="lowercase" suffix=" "/&gt;
+                &lt;name and="text" delimiter=", "/&gt;
+              &lt;/names&gt;
+            &lt;/if&gt;
+          &lt;/choose&gt;
+        &lt;/group&gt;
+      &lt;/if&gt;
+    &lt;/choose&gt;
+  &lt;/macro&gt;
+  &lt;macro name="editor"&gt;
+    &lt;names variable="editor"&gt;
+      &lt;name name-as-sort-order="first" and="text" sort-separator=", " delimiter=", " delimiter-precedes-last="always"/&gt;
+      &lt;label form="short" prefix=", " suffix="." strip-periods="true"/&gt;
+    &lt;/names&gt;
+  &lt;/macro&gt;
+  &lt;macro name="translator"&gt;
+    &lt;names variable="translator"&gt;
+      &lt;name name-as-sort-order="first" and="text" sort-separator=", " delimiter=", " delimiter-precedes-last="always"/&gt;
+      &lt;label form="verb-short" prefix=", " suffix="." strip-periods="true"/&gt;
+    &lt;/names&gt;
+  &lt;/macro&gt;
+  &lt;macro name="recipient-note"&gt;
+    &lt;names variable="recipient" delimiter=", "&gt;
+      &lt;label form="verb" prefix=" " text-case="lowercase" suffix=" "/&gt;
+      &lt;name and="text" delimiter=", "/&gt;
+    &lt;/names&gt;
+  &lt;/macro&gt;
+  &lt;macro name="recipient"&gt;
+    &lt;choose&gt;
+      &lt;if type="personal_communication"&gt;
+        &lt;choose&gt;
+          &lt;if variable="genre"&gt;
+            &lt;text variable="genre" text-case="capitalize-first"/&gt;
+          &lt;/if&gt;
+          &lt;else&gt;
+            &lt;text term="letter" text-case="capitalize-first"/&gt;
+          &lt;/else&gt;
+        &lt;/choose&gt;
+      &lt;/if&gt;
+    &lt;/choose&gt;
+    &lt;text macro="recipient-note" prefix=" "/&gt;
+  &lt;/macro&gt;
+  &lt;macro name="contributors"&gt;
+    &lt;names variable="author"&gt;
+      &lt;name name-as-sort-order="first" and="text" sort-separator=", " delimiter=", " delimiter-precedes-last="always"/&gt;
+      &lt;substitute&gt;
+        &lt;text macro="editor"/&gt;
+        &lt;text macro="translator"/&gt;
+      &lt;/substitute&gt;
+    &lt;/names&gt;
+    &lt;text macro="recipient" prefix=". "/&gt;
+  &lt;/macro&gt;
+  &lt;macro name="recipient-short"&gt;
+    &lt;names variable="recipient"&gt;
+      &lt;label form="verb" prefix=" " text-case="lowercase" suffix=" "/&gt;
+      &lt;name form="short" and="text" delimiter=", "/&gt;
+    &lt;/names&gt;
+  &lt;/macro&gt;
+  &lt;macro name="contributors-short"&gt;
+    &lt;names variable="author"&gt;
+      &lt;name form="short" and="text" delimiter=", "/&gt;
+      &lt;substitute&gt;
+        &lt;names variable="editor"/&gt;
+        &lt;names variable="translator"/&gt;
+      &lt;/substitute&gt;
+    &lt;/names&gt;
+    &lt;text macro="recipient-short"/&gt;
+  &lt;/macro&gt;
+  &lt;macro name="contributors-sort"&gt;
+    &lt;names variable="author"&gt;
+      &lt;name name-as-sort-order="all" and="text" sort-separator=", " delimiter=", " delimiter-precedes-last="always"/&gt;
+      &lt;label form="verb-short" prefix=", " suffix="." strip-periods="true"/&gt;
+      &lt;substitute&gt;
+        &lt;names variable="editor"/&gt;
+        &lt;names variable="translator"/&gt;
+      &lt;/substitute&gt;
+    &lt;/names&gt;
+  &lt;/macro&gt;
+  &lt;macro name="interviewer"&gt;
+    &lt;names variable="interviewer" delimiter=", "&gt;
+      &lt;label form="verb" prefix=" " text-case="capitalize-first" suffix=" "/&gt;
+      &lt;name and="text" delimiter=", "/&gt;
+    &lt;/names&gt;
+  &lt;/macro&gt;
+  &lt;macro name="title"&gt;
+    &lt;choose&gt;
+      &lt;if variable="title" match="none"&gt;
+        &lt;choose&gt;
+          &lt;if type="personal_communication" match="none"&gt;
+            &lt;text variable="genre" text-case="capitalize-first"/&gt;
+          &lt;/if&gt;
+        &lt;/choose&gt;
+      &lt;/if&gt;
+      &lt;else-if type="bill book graphic legal_case motion_picture report song" match="any"&gt;
+        &lt;text variable="title" text-case="title" font-style="italic"/&gt;
+      &lt;/else-if&gt;
+      &lt;else&gt;
+        &lt;text variable="title" text-case="title" quotes="true"/&gt;
+      &lt;/else&gt;
+    &lt;/choose&gt;
+  &lt;/macro&gt;
+  &lt;macro name="title-short"&gt;
+    &lt;choose&gt;
+      &lt;if variable="title" match="none"&gt;
+        &lt;choose&gt;
+          &lt;if type="interview"&gt;
+            &lt;text term="interview" text-case="lowercase"/&gt;
+          &lt;/if&gt;
+          &lt;else-if type="manuscript speech" match="any"&gt;
+            &lt;text variable="genre" form="short"/&gt;
+          &lt;/else-if&gt;
+          &lt;else-if type="personal_communication"&gt;
+            &lt;text macro="issued"/&gt;
+          &lt;/else-if&gt;
+        &lt;/choose&gt;
+      &lt;/if&gt;
+      &lt;else-if type="bill book graphic legal_case motion_picture report song" match="any"&gt;
+        &lt;text variable="title" text-case="title" form="short" font-style="italic"/&gt;
+      &lt;/else-if&gt;
+      &lt;else&gt;
+        &lt;text variable="title" text-case="title" form="short" quotes="true"/&gt;
+      &lt;/else&gt;
+    &lt;/choose&gt;
+  &lt;/macro&gt;
+  &lt;macro name="description"&gt;
+    &lt;group delimiter=", "&gt;
+      &lt;group delimiter=". "&gt;
+        &lt;text macro="interviewer"/&gt;
+        &lt;text variable="medium" text-case="capitalize-first"/&gt;
+      &lt;/group&gt;
+      &lt;choose&gt;
+        &lt;if variable="title" match="none"/&gt;
+        &lt;else-if type="thesis speech" match="any"/&gt;
+        &lt;else&gt;
+          &lt;text variable="genre" text-case="capitalize-first"/&gt;
+        &lt;/else&gt;
+      &lt;/choose&gt;
+    &lt;/group&gt;
+  &lt;/macro&gt;
+  &lt;macro name="container-title"&gt;
+    &lt;choose&gt;
+      &lt;if type="chapter paper-conference" match="any"&gt;
+        &lt;text term="in" text-case="capitalize-first" suffix=" "/&gt;
+      &lt;/if&gt;
+    &lt;/choose&gt;
+    &lt;choose&gt;
+      &lt;if type="legal_case" match="none"&gt;
+        &lt;text variable="container-title" text-case="title" font-style="italic"/&gt;
+      &lt;/if&gt;
+    &lt;/choose&gt;
+  &lt;/macro&gt;
+  &lt;macro name="edition"&gt;
+    &lt;choose&gt;
+      &lt;if type="bill book graphic legal_case motion_picture report song chapter paper-conference" match="any"&gt;
+        &lt;choose&gt;
+          &lt;if is-numeric="edition"&gt;
+            &lt;group delimiter=" "&gt;
+              &lt;number variable="edition" form="ordinal"/&gt;
+              &lt;text term="edition" form="short" suffix="." strip-periods="true"/&gt;
+            &lt;/group&gt;
+          &lt;/if&gt;
+          &lt;else&gt;
+            &lt;text variable="edition" text-case="capitalize-first" suffix="."/&gt;
+          &lt;/else&gt;
+        &lt;/choose&gt;
+      &lt;/if&gt;
+    &lt;/choose&gt;
+  &lt;/macro&gt;
+  &lt;macro name="collection-title"&gt;
+    &lt;text variable="collection-title" text-case="title"/&gt;
+    &lt;text variable="collection-number" prefix=" "/&gt;
+  &lt;/macro&gt;
+  &lt;macro name="locators"&gt;
+    &lt;choose&gt;
+      &lt;if type="article-journal"&gt;
+        &lt;text variable="volume" prefix=" "/&gt;
+        &lt;group prefix=", "&gt;
+          &lt;text term="issue" form="short" suffix=". " strip-periods="true"/&gt;
+          &lt;number variable="issue"/&gt;
+        &lt;/group&gt;
+      &lt;/if&gt;
+      &lt;else-if type="legal_case"&gt;
+        &lt;text variable="volume" prefix=", "/&gt;
+        &lt;text variable="container-title" prefix=" "/&gt;
+        &lt;text variable="page" prefix=" "/&gt;
+      &lt;/else-if&gt;
+      &lt;else-if type="bill book graphic legal_case motion_picture report song" match="any"&gt;
+        &lt;group prefix=". " delimiter=". "&gt;
+          &lt;group&gt;
+            &lt;text term="volume" form="short" text-case="capitalize-first" suffix=". " strip-periods="true"/&gt;
+            &lt;number variable="volume" form="numeric"/&gt;
+          &lt;/group&gt;
+          &lt;group&gt;
+            &lt;number variable="number-of-volumes" form="numeric"/&gt;
+            &lt;text term="volume" form="short" prefix=" " suffix="." plural="true" strip-periods="true"/&gt;
+          &lt;/group&gt;
+          &lt;text macro="edition"/&gt;
+        &lt;/group&gt;
+      &lt;/else-if&gt;
+      &lt;else-if type="chapter paper-conference" match="any"&gt;
+        &lt;group prefix=". " delimiter=". "&gt;
+          &lt;choose&gt;
+            &lt;if variable="page" match="none"&gt;
+              &lt;group&gt;
+                &lt;text term="volume" form="short" text-case="capitalize-first" suffix=". " strip-periods="true"/&gt;
+                &lt;number variable="volume" form="numeric"/&gt;
+              &lt;/group&gt;
+            &lt;/if&gt;
+          &lt;/choose&gt;
+          &lt;text macro="edition"/&gt;
+        &lt;/group&gt;
+      &lt;/else-if&gt;
+    &lt;/choose&gt;
+  &lt;/macro&gt;
+  &lt;macro name="locators-newspaper"&gt;
+    &lt;choose&gt;
+      &lt;if type="article-newspaper"&gt;
+        &lt;group delimiter=", "&gt;
+          &lt;group&gt;
+            &lt;text variable="edition" suffix=" "/&gt;
+            &lt;text term="edition" prefix=" "/&gt;
+          &lt;/group&gt;
+          &lt;group&gt;
+            &lt;text term="section" form="short" suffix=". " strip-periods="true"/&gt;
+            &lt;text variable="section"/&gt;
+          &lt;/group&gt;
+        &lt;/group&gt;
+      &lt;/if&gt;
+    &lt;/choose&gt;
+  &lt;/macro&gt;
+  &lt;macro name="event"&gt;
+    &lt;group&gt;
+      &lt;text term="presented at" suffix=" "/&gt;
+      &lt;text variable="event"/&gt;
+    &lt;/group&gt;
+  &lt;/macro&gt;
+  &lt;macro name="publisher"&gt;
+    &lt;choose&gt;
+      &lt;if type="thesis"&gt;
+        &lt;text variable="publisher"/&gt;
+      &lt;/if&gt;
+      &lt;else&gt;
+        &lt;group delimiter=": "&gt;
+          &lt;text variable="publisher-place"/&gt;
+          &lt;text variable="publisher"/&gt;
+        &lt;/group&gt;
+      &lt;/else&gt;
+    &lt;/choose&gt;
+  &lt;/macro&gt;
+  &lt;macro name="issued"&gt;
+    &lt;choose&gt;
+      &lt;if variable="issued"&gt;
+        &lt;choose&gt;
+          &lt;if type="graphic report" match="any"&gt;
+            &lt;date variable="issued"&gt;
+              &lt;date-part name="month" suffix=" "/&gt;
+              &lt;date-part name="day" suffix=", "/&gt;
+              &lt;date-part name="year"/&gt;
+            &lt;/date&gt;
+          &lt;/if&gt;
+          &lt;else-if type="legal_case"&gt;
+            &lt;text variable="authority" suffix=" "/&gt;
+            &lt;date variable="issued"&gt;
+              &lt;date-part name="year"/&gt;
+            &lt;/date&gt;
+          &lt;/else-if&gt;
+          &lt;else-if type="bill book graphic legal_case motion_picture report song thesis chapter paper-conference" match="any"&gt;
+            &lt;date variable="issued"&gt;
+              &lt;date-part name="year"/&gt;
+            &lt;/date&gt;
+          &lt;/else-if&gt;
+          &lt;else&gt;
+            &lt;date variable="issued"&gt;
+              &lt;date-part name="month" suffix=" "/&gt;
+              &lt;date-part name="day" suffix=", "/&gt;
+              &lt;date-part name="year"/&gt;
+            &lt;/date&gt;
+          &lt;/else&gt;
+        &lt;/choose&gt;
+      &lt;/if&gt;
+      &lt;else&gt;
+        &lt;text term="no date" form="short"/&gt;
+      &lt;/else&gt;
+    &lt;/choose&gt;
+  &lt;/macro&gt;
+  &lt;macro name="locators-chapter"&gt;
+    &lt;choose&gt;
+      &lt;if type="chapter paper-conference" match="any"&gt;
+        &lt;choose&gt;
+          &lt;if variable="page"&gt;
+            &lt;text variable="volume" suffix=":"/&gt;
+            &lt;text variable="page"/&gt;
+          &lt;/if&gt;
+        &lt;/choose&gt;
+      &lt;/if&gt;
+    &lt;/choose&gt;
+  &lt;/macro&gt;
+  &lt;macro name="locators-journal"&gt;
+    &lt;choose&gt;
+      &lt;if type="article-journal"&gt;
+        &lt;text variable="page" prefix=": "/&gt;
+      &lt;/if&gt;
+    &lt;/choose&gt;
+  &lt;/macro&gt;
+  &lt;macro name="point-locators-subsequent"&gt;
+    &lt;choose&gt;
+      &lt;if variable="locator"&gt;
+        &lt;choose&gt;
+          &lt;if locator="page" match="none"&gt;
+            &lt;choose&gt;
+              &lt;if type="bill book graphic legal_case motion_picture report song" match="any"&gt;
+                &lt;choose&gt;
+                  &lt;if variable="volume"&gt;
+                    &lt;group&gt;
+                      &lt;text term="volume" form="short" text-case="lowercase" suffix=". " strip-periods="true"/&gt;
+                      &lt;number variable="volume" form="numeric"/&gt;
+                      &lt;label variable="locator" form="short" prefix=", " suffix=" "/&gt;
+                    &lt;/group&gt;
+                  &lt;/if&gt;
+                  &lt;else&gt;
+                    &lt;label variable="locator" form="short" suffix=" "/&gt;
+                  &lt;/else&gt;
+                &lt;/choose&gt;
+              &lt;/if&gt;
+            &lt;/choose&gt;
+          &lt;/if&gt;
+          &lt;else-if type="bill book graphic legal_case motion_picture report song" match="any"&gt;
+            &lt;number variable="volume" form="numeric" suffix=":"/&gt;
+          &lt;/else-if&gt;
+        &lt;/choose&gt;
+        &lt;text variable="locator"/&gt;
+      &lt;/if&gt;
+    &lt;/choose&gt;
+  &lt;/macro&gt;
+  &lt;macro name="archive"&gt;
+    &lt;choose&gt;
+      &lt;if type="thesis"&gt;
+        &lt;group delimiter=" "&gt;
+          &lt;text variable="archive"/&gt;
+          &lt;text variable="archive_location" prefix="(" suffix=")"/&gt;
+        &lt;/group&gt;
+      &lt;/if&gt;
+      &lt;else&gt;
+        &lt;group delimiter=". "&gt;
+          &lt;text variable="archive_location" text-case="capitalize-first"/&gt;
+          &lt;text variable="archive"/&gt;
+          &lt;text variable="archive-place"/&gt;
+        &lt;/group&gt;
+      &lt;/else&gt;
+    &lt;/choose&gt;
+  &lt;/macro&gt;
+  &lt;macro name="issue"&gt;
+    &lt;choose&gt;
+      &lt;if type="article-journal legal_case" match="any"&gt;
+        &lt;text macro="issued" prefix=" (" suffix=")"/&gt;
+      &lt;/if&gt;
+      &lt;else-if type="speech"&gt;
+        &lt;choose&gt;
+          &lt;if variable="title" match="none"/&gt;
+          &lt;else&gt;
+            &lt;text variable="genre" text-case="capitalize-first" prefix=". "/&gt;
+          &lt;/else&gt;
+        &lt;/choose&gt;
+        &lt;text macro="event" prefix=" "/&gt;
+        &lt;text variable="event-place" prefix=", "/&gt;
+        &lt;text macro="issued" prefix=", "/&gt;
+      &lt;/else-if&gt;
+      &lt;else-if variable="publisher-place publisher" match="any"&gt;
+        &lt;group prefix=". " delimiter=", "&gt;
+          &lt;choose&gt;
+            &lt;if type="thesis"&gt;
+              &lt;text variable="genre" text-case="capitalize-first"/&gt;
+            &lt;/if&gt;
+          &lt;/choose&gt;
+          &lt;text macro="publisher"/&gt;
+          &lt;text macro="issued"/&gt;
+        &lt;/group&gt;
+      &lt;/else-if&gt;
+      &lt;else&gt;
+        &lt;text macro="issued" prefix=", "/&gt;
+      &lt;/else&gt;
+    &lt;/choose&gt;
+  &lt;/macro&gt;
+  &lt;macro name="access"&gt;
+    &lt;group delimiter=". "&gt;
+      &lt;choose&gt;
+        &lt;if type="graphic report" match="any"&gt;
+          &lt;text macro="archive"/&gt;
+        &lt;/if&gt;
+        &lt;else-if type="bill book graphic legal_case motion_picture report song article-journal article-magazine article-newspaper chapter paper-conference" match="none"&gt;
+          &lt;text macro="archive"/&gt;
+        &lt;/else-if&gt;
+      &lt;/choose&gt;
+      &lt;choose&gt;
+        &lt;if type="legal_case" match="none"&gt;
+          &lt;text variable="URL"/&gt;
+        &lt;/if&gt;
+      &lt;/choose&gt;
+    &lt;/group&gt;
+  &lt;/macro&gt;
+  &lt;macro name="sort-key"&gt;
+    &lt;text macro="contributors-sort" suffix=" "/&gt;
+    &lt;text variable="title" suffix=" "/&gt;
+    &lt;text variable="genre"/&gt;
+  &lt;/macro&gt;
+  &lt;citation et-al-min="4" et-al-use-first="1" disambiguate-add-names="true"&gt;
+    &lt;layout prefix="" suffix="." delimiter="; "&gt;
+      &lt;choose&gt;
+        &lt;if position="ibid-with-locator"&gt;
+          &lt;group delimiter=", "&gt;
+            &lt;text term="ibid" text-case="capitalize-first"/&gt;
+            &lt;text macro="point-locators-subsequent"/&gt;
+          &lt;/group&gt;
+        &lt;/if&gt;
+        &lt;else-if position="ibid"&gt;
+          &lt;text term="ibid" text-case="capitalize-first"/&gt;
+        &lt;/else-if&gt;
+        &lt;else&gt;
+          &lt;group delimiter=", "&gt;
+            &lt;text macro="contributors-short"/&gt;
+            &lt;text macro="title-short"/&gt;
+            &lt;text macro="point-locators-subsequent"/&gt;
+          &lt;/group&gt;
+        &lt;/else&gt;
+      &lt;/choose&gt;
+    &lt;/layout&gt;
+  &lt;/citation&gt;
+  &lt;bibliography hanging-indent="true" et-al-min="11" et-al-use-first="7" subsequent-author-substitute="———" entry-spacing="0"&gt;
+    &lt;sort&gt;
+      &lt;key macro="sort-key"/&gt;
+      &lt;key variable="issued"/&gt;
+    &lt;/sort&gt;
+    &lt;layout suffix="."&gt;
+      &lt;group delimiter=". "&gt;
+        &lt;text macro="contributors"/&gt;
+        &lt;text macro="title"/&gt;
+        &lt;text macro="description"/&gt;
+        &lt;text macro="secondary-contributors"/&gt;
+        &lt;group delimiter=", "&gt;
+          &lt;text macro="container-title"/&gt;
+          &lt;text macro="container-contributors"/&gt;
+          &lt;text macro="locators-chapter"/&gt;
+        &lt;/group&gt;
+      &lt;/group&gt;
+      &lt;text macro="locators"/&gt;
+      &lt;text macro="collection-title" prefix=". "/&gt;
+      &lt;text macro="issue"/&gt;
+      &lt;text macro="locators-newspaper" prefix=", "/&gt;
+      &lt;text macro="locators-journal"/&gt;
+      &lt;text macro="access" prefix=". "/&gt;
+    &lt;/layout&gt;
+  &lt;/bibliography&gt;
+&lt;/style&gt;
+				</div>
+				<script src="ace/ace.js" type="text/javascript" charset="utf-8"></script>
+				<script src="ace/mode-xml.js" type="text/javascript" charset="utf-8"></script>
+				<script src="https://raw.github.com/simonster/csl-validator.js/master/csl-validator.js" type="text/javascript"></script>
+								
+				<p style="text-align: center;"><input type="button" value="Validate" onclick="performValidation()"></p>
+				
+				<div id="output" style="position: relative; width: 100%; height: 200px"></div>
+				
+				<script>
+					var editor = ace.edit("editor");
+					var JavaScriptMode = require("ace/mode/xml").Mode;
+					editor.getSession().setMode(new JavaScriptMode());
+					
+					var output = ace.edit("output");
+					
+					function performValidation() {
+						var out = validate(editor.getSession().getValue());
+						if(!out) out = "Validation successful.";
+						output.getSession().setValue(out);
+					}
+				</script>
+			</section>
+		</div>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
-
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
-
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
-
-<h3>Designer Templates</h3>
-
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
-
-<h3>Rather Drive Stick?</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
-
-<h3>Authors and Contributors</h3>
-
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact support@github.com and we’ll help you sort it out.</p>
-      </section>
-    </div>
-
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">csl-validator.js maintained by <a href="https://github.com/simonster">simonster</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
-
-    
-
-  </body>
+		<!-- FOOTER	-->
+		<div id="footer_wrap" class="outer">
+			<footer class="inner">
+				<p class="copyright">csl-validator.js maintained by <a href="https://github.com/simonster">simonster</a></p>
+				<p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+			</footer>
+		</div>
+	</body>
 </html>
