@@ -277,6 +277,23 @@ Full-Width Styles
   margin: 0 auto;
 }
 
+#main_content {
+  max-width: none;
+}
+
+#output {
+  position: relative;
+  height: 150px;
+  overflow: auto;
+  border: 1px solid black;
+  padding: 5px;
+}
+
+#output > p {
+  margin: 0 0 0 3em;
+  text-indent: -3em;
+}
+
 #forkme_banner {
   display: block;
   position: absolute;

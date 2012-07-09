@@ -565,19 +565,31 @@
 								
 				<p style="text-align: center;"><input type="button" value="Validate" onclick="performValidation()"></p>
 				
-				<div id="output" style="position: relative; width: 100%; height: 200px"></div>
+				<div id="output">&nbsp;</div>
 				
 				<script>
 					var editor = ace.edit("editor");
 					var JavaScriptMode = require("ace/mode/xml").Mode;
 					editor.getSession().setMode(new JavaScriptMode());
 					
-					var output = ace.edit("output");
-					
 					function performValidation() {
+						var outputDiv = document.getElementById("output");
+						while(outputDiv.hasChildNodes()) outputDiv.removeChild(outputDiv.firstChild);
 						var out = validate(editor.getSession().getValue());
 						if(!out) out = "Validation successful.";
-						output.getSession().setValue(out);
+						var lines = out.split("\n"), el;
+						for(var i=0; i<lines.length; i++) {
+							var line = lines[i];
+							if(!line) continue;
+							if(!el || /^(?:stdin:[0-9]+:[0-9]+|error:)/.test(line)) {
+								el = document.createElement("p");
+								el.appendChild(document.createTextNode(line));
+								outputDiv.appendChild(el);
+							} else {
+								el.appendChild(document.createElement("br"));
+								el.appendChild(document.createTextNode(line));
+							}
+						}
 					}
 				</script>
 			</section>
