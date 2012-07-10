@@ -23,9 +23,9 @@ $(RNV)/Makefile: $(EXPAT)/libexpat.la
 	export CPPFLAGS='-L$(TOP)$(EXPAT) -I$(TOP)$(EXPAT)/lib'; cd $(RNV); \
 		"$(EMSCRIPTEN)/emconfigure" ./configure
 
-csl-validator.js: $(RNV)/Makefile pre.js deps/schema/csl.rnc
+csl-validator.tmp.js: $(RNV)/Makefile pre.js deps/schema/csl.rnc
 	cd $(RNV); "$(EMSCRIPTEN)/emmake" make
-	"$(EMSCRIPTEN)/emcc" -O2 -o csl-validator.js \
+	"$(EMSCRIPTEN)/emcc" -O2 -o csl-validator.tmp.js \
 		$(RNV)/rnv-xcl.o $(RNV)/librnv1.a $(RNV)/librnv2.a $(EXPAT)/.libs/libexpat.a \
 		--embed-file $(SCHEMA)/csl-categories.rnc \
 		--embed-file $(SCHEMA)/csl-data.rnc \
@@ -34,6 +34,14 @@ csl-validator.js: $(RNV)/Makefile pre.js deps/schema/csl.rnc
 		--embed-file $(SCHEMA)/csl-variables.rnc \
 		--embed-file $(SCHEMA)/csl.rnc \
 		--pre-js pre.js
+
+csl-validator.js: csl-validator.tmp.js
+	printf '/*\n' > csl-validator.js
+	cat $(RNV)/COPYING >> csl-validator.js
+	printf '\n' >> csl-validator.js
+	cat $(EXPAT)/COPYING >> csl-validator.js
+	printf '*/\n' >> csl-validator.js
+	cat csl-validator.tmp.js >> csl-validator.js
 
 test: csl-validator.js
 	node test.js
