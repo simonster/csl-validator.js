@@ -78,3 +78,8 @@ validate = function(string) {
 	run();
 	return cslValidatorOutput;
 }
+if (typeof window === 'undefined') {
+	onmessage = function(event) {
+		postMessage(validate(event.data));
+	}
+}
