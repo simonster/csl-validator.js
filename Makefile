@@ -25,15 +25,19 @@ $(RNV)/Makefile: $(EXPAT)/libexpat.la
 
 csl-validator.tmp.js: $(RNV)/Makefile pre.js deps/schema/csl.rnc
 	cd $(RNV); "$(EMSCRIPTEN)/emmake" make
-	"$(EMSCRIPTEN)/emcc" -O2 -o csl-validator.tmp.js \
-		$(RNV)/rnv-xcl.o $(RNV)/librnv1.a $(RNV)/librnv2.a $(EXPAT)/.libs/libexpat.a \
-		--embed-file $(SCHEMA)/csl-categories.rnc \
-		--embed-file $(SCHEMA)/csl-data.rnc \
-		--embed-file $(SCHEMA)/csl-terms.rnc \
-		--embed-file $(SCHEMA)/csl-types.rnc \
-		--embed-file $(SCHEMA)/csl-variables.rnc \
-		--embed-file $(SCHEMA)/csl.rnc \
-		--pre-js pre.js
+	cd $(SCHEMA); "$(EMSCRIPTEN)/emcc" -O2 \
+		-o "$(TOP)csl-validator.tmp.js" \
+		"$(TOP)$(RNV)/rnv-xcl.o" \
+		"$(TOP)$(RNV)/librnv1.a" \
+		"$(TOP)$(RNV)/librnv2.a" \
+		"$(TOP)$(EXPAT)/.libs/libexpat.a" \
+		--embed-file csl-categories.rnc \
+		--embed-file csl-data.rnc \
+		--embed-file csl-terms.rnc \
+		--embed-file csl-types.rnc \
+		--embed-file csl-variables.rnc \
+		--embed-file csl.rnc \
+		--pre-js "$(TOP)/pre.js"
 
 csl-validator.js: csl-validator.tmp.js
 	printf '/*\n' > csl-validator.js
