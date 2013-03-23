@@ -7,7 +7,7 @@ TOP := $(dir $(CURDIR)/$(word $(words $(MAKEFILE_LIST)),$(MAKEFILE_LIST)))
 all: test
 
 clean:
-	rm -f csl-validator.js
+	rm -f csl-validator.js csl-validator.tmp.js
 	cd $(EXPAT); make clean
 	cd $(RNV); make clean
 	rm $(EXPAT)/Makefile
@@ -25,7 +25,7 @@ $(RNV)/Makefile: $(EXPAT)/libexpat.la
 
 csl-validator.tmp.js: $(RNV)/Makefile pre.js deps/schema/csl.rnc
 	cd $(RNV); "$(EMSCRIPTEN)/emmake" make
-	cd $(SCHEMA); "$(EMSCRIPTEN)/emcc" -O2 \
+	cd $(SCHEMA); "$(EMSCRIPTEN)/emcc" -Os \
 		-o "$(TOP)csl-validator.tmp.js" \
 		"$(TOP)$(RNV)/rnv-xcl.o" \
 		"$(TOP)$(RNV)/librnv1.a" \
@@ -37,7 +37,8 @@ csl-validator.tmp.js: $(RNV)/Makefile pre.js deps/schema/csl.rnc
 		--embed-file csl-types.rnc \
 		--embed-file csl-variables.rnc \
 		--embed-file csl.rnc \
-		--pre-js "$(TOP)/pre.js"
+		--pre-js "$(TOP)/pre.js" \
+		--closure 1
 
 csl-validator.js: csl-validator.tmp.js
 	printf '/*\n' > csl-validator.js
